@@ -26,7 +26,7 @@ public class TransactionService {
     public ApiResponse<List<Transaction>> getAllTransactions(Long userId) {
         List<Transaction> transactions = transactionRepository.findByUser_UserId(userId);
         if (transactions.isEmpty()) {
-            return new ApiResponse<>(false, "No transactions found", null);
+            return new ApiResponse<>(true, "No transactions found", null);
         }
         return new ApiResponse<>(true, "Transactions retrieved successfully", transactions);
     }

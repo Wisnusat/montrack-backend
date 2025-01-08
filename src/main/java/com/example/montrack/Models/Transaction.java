@@ -49,12 +49,12 @@ public class Transaction {
         this.date = date;
     }
 
-    public Category getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Category categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getDescription() {
@@ -63,6 +63,22 @@ public class Transaction {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @ManyToOne
@@ -75,10 +91,16 @@ public class Transaction {
     @Column(name = "date", nullable = false)
     private String date;
 
+    @Column(name = "time", nullable = false)
+    private String time;
+
     @ManyToOne
     @JoinColumn(name = "categoryId", referencedColumnName = "categoryId", nullable = false)
-    private Category categoryId;
+    private Category category;
 
     @Column(name = "description", nullable = true)
     private String description;
+
+    @Column(name = "type", nullable = false)
+    private String type;
 }

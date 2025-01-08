@@ -1,6 +1,7 @@
 package com.example.montrack.Controller;
 
 import com.example.montrack.DTO.ApiResponse;
+import com.example.montrack.DTO.LoginDTO;
 import com.example.montrack.Models.User;
 import com.example.montrack.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<User>> login(@RequestParam String username, @RequestParam String password) {
-        ApiResponse<User> response = userService.login(username, password);
+    public ResponseEntity<ApiResponse<User>> login(@RequestBody LoginDTO loginDTO) {
+        ApiResponse<User> response = userService.login(loginDTO.getUsername(), loginDTO.getPassword());
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
@@ -37,6 +38,16 @@ public class UserController {
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<Void>> logout() {
         ApiResponse<Void> response = userService.logout();
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(400).body(response);
+        }
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
+        ApiResponse<User> response = userService.update(userId, updatedUser);
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {

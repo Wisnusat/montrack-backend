@@ -35,20 +35,36 @@ public class Wishlist {
         this.name = name;
     }
 
-    public int getBudget() {
+    public double getBudget() {
         return budget;
     }
 
-    public void setBudget(int budget) {
+    public void setBudget(double budget) {
         this.budget = budget;
     }
 
-    public int getSaving() {
+    public double getSaving() {
         return saving;
     }
 
-    public void setSaving(int saving) {
+    public void setSaving(double saving) {
         this.saving = saving;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getReachedDate() {
+        return reachedDate;
+    }
+
+    public void setReachedDate(String reachedDate) {
+        this.reachedDate = reachedDate;
     }
 
     @Id
@@ -63,9 +79,15 @@ public class Wishlist {
     private String name;
 
     @Column(name = "budget", nullable = false)
-    private int budget;
+    private double budget;
 
     @Column(name = "saving", nullable = false)
-    private int saving;
+    private double saving;
+
+    @Column(name = "createdAt", nullable = false)
+    private String createdAt;
+
+    @Column(name = "reachedDate", nullable = true)
+    private String reachedDate;
 }
 

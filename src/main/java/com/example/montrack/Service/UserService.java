@@ -55,4 +55,32 @@ public class UserService {
     public ApiResponse<Void> logout() {
         return new ApiResponse<>(true, "Logout successful", null);
     }
+
+    public ApiResponse<User> update(Long userId, User updatedUser) {
+        if (updatedUser == null) {
+            return new ApiResponse<>(false, "User data is invalid", null);
+        }
+
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isEmpty()) {
+            return new ApiResponse<>(false, "User not found", null);
+        }
+
+        User existingUser = optionalUser.get();
+        if (updatedUser.getUsername() != null && !updatedUser.getUsername().equals(existingUser.getUsername())) {
+            boolean usernameExists = userRepository.findByUsername(updatedUser.getUsername()).isPresent();
+            if (usernameExists) {
+                return new ApiResponse<>(false, "Username already exists", null);
+            }
+        }
+
+        // Update fields if provided
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setPassword(updatedUser.getPassword());
+        existingUser.setSaldo(updatedUser.getSaldo());
+        existingUser.setFullname(updatedUser.getFullname());
+        User savedUser = userRepository.save(existingUser);
+        return new ApiResponse<>(true, "User updated successfully", savedUser);
+    }
 }

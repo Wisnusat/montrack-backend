@@ -43,6 +43,15 @@ public class User {
         this.fullname = fullname;
     }
 
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -55,4 +64,7 @@ public class User {
 
     @Column(name = "fullname", nullable = false, length = 50)
     private String fullname;
+
+    @Column(name = "saldo", nullable = true)
+    private Double saldo;
 }

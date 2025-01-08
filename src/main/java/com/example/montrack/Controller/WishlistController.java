@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/wishlists")
 public class WishlistController {
@@ -23,9 +25,9 @@ public class WishlistController {
         }
     }
 
-    @GetMapping("/status/{wishlistId}")
-    public ResponseEntity<ApiResponse<Boolean>> dateReached(@PathVariable Long wishlistId) {
-        ApiResponse<Boolean> response = wishlistService.dateReached(wishlistId);
+    @DeleteMapping("/{wishlistId}")
+    public ResponseEntity<ApiResponse<Void>> deleteWishlist(@PathVariable Long wishlistId) {
+        ApiResponse<Void> response = wishlistService.deleteWishlist(wishlistId);
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
@@ -33,9 +35,9 @@ public class WishlistController {
         }
     }
 
-    @DeleteMapping("/{wishlistId}")
-    public ResponseEntity<ApiResponse<Void>> deleteWishlist(@PathVariable Long wishlistId) {
-        ApiResponse<Void> response = wishlistService.deleteWishlist(wishlistId);
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<List<Wishlist>>> getAllWishlist(@PathVariable Long userId) {
+        ApiResponse<List<Wishlist>> response = wishlistService.getAllWishlist(userId);
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
