@@ -21,7 +21,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public ApiResponse<User> register(User user) {
-        if (user == null || user.getUsername() == null || user.getPassword() == null) {
+        if (user == null || user.getUsername().isEmpty() || user.getPassword() == null) {
             return new ApiResponse<>(false, "User data is invalid", null);
         }
 
@@ -52,6 +52,17 @@ public class UserService {
         return new ApiResponse<>(true, "Login successful", user);
     }
 
+    public ApiResponse<User> getDetail(String username) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+
+        if (optionalUser.isEmpty()) {
+            return new ApiResponse<>(false, "User not found", null);
+        } else {
+            User user = optionalUser.get();
+            return new ApiResponse<>(true, "User found", user);
+        }
+    }
+
     public ApiResponse<Void> logout() {
         return new ApiResponse<>(true, "Logout successful", null);
     }
@@ -75,9 +86,13 @@ public class UserService {
             }
         }
 
+        if (!updatedUser.getPassword().equals(existingUser.getPassword())) {
+            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        } else {
+            existingUser.setPassword(updatedUser.getPassword());
+        }
         // Update fields if provided
         existingUser.setUsername(updatedUser.getUsername());
-        existingUser.setPassword(updatedUser.getPassword());
         existingUser.setSaldo(updatedUser.getSaldo());
         existingUser.setFullname(updatedUser.getFullname());
         User savedUser = userRepository.save(existingUser);

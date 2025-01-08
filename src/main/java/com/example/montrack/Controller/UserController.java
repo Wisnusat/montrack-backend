@@ -54,4 +54,14 @@ public class UserController {
             return ResponseEntity.status(400).body(response);
         }
     }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<ApiResponse<User>> getDetailUser(@PathVariable String username) {
+        ApiResponse<User> response = userService.getDetail(username);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(400).body(response);
+        }
+    }
 }
